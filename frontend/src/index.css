@@ -1,15 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;650;700&family=Manrope:wght@400;500;600;650;700&display=swap");
 
 :root {
-  --ink: #1c3027;
+  --ink: #1b2d25;
   --lime: #d8e7ac;
-  --line: #e8e9e2;
+  --line: #e1e7e1;
   --display: "Manrope", "DM Sans", sans-serif;
   --sans: "DM Sans", "Manrope", sans-serif;
   --mono: "IBM Plex Mono", "Cascadia Code", monospace;
   font-family: var(--sans);
-  color: #344138;
-  background: #f4f5ef;
+  color: #334139;
+  background: #f2f5f2;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
