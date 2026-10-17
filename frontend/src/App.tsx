@@ -427,7 +427,9 @@ function App() {
                 <select
                   aria-label="Dashboard country"
                   value={filters.country}
-                  onChange={(event) => updateFilter("country", event.target.value)}
+                  onChange={(event) =>
+                    updateFilter("country", event.target.value)
+                  }
                 >
                   <option value="">All countries</option>
                   {options.countries.map((country) => (
