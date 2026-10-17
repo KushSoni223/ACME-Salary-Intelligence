@@ -1349,3 +1349,54 @@ tbody tr:hover {
 .table-sort:hover {
   color: #49644f;
 }
+.top-country-control {
+  display: flex;
+  min-width: 190px;
+  height: 36px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  border: 1px solid #dfe2da;
+  border-radius: 4px;
+  color: #607062;
+  background: #fffefa;
+}
+.top-country-control > span {
+  color: #899289;
+  font-size: 9px;
+  font-weight: 600;
+}
+.top-country-control select {
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  border: 0;
+  outline: 0;
+  color: #36463b;
+  background: transparent;
+  font: inherit;
+  font-size: 10px;
+}
+.top-country-control:focus-within {
+  border-color: #9daf93;
+  box-shadow: 0 0 0 2px #9daf931f;
+}
+@media (max-width: 560px) {
+  .page-heading {
+    flex-wrap: wrap;
+  }
+  .page-heading > div:first-child,
+  .heading-actions {
+    width: 100%;
+  }
+  .heading-actions {
+    gap: 7px;
+  }
+  .top-country-control {
+    min-width: 0;
+    flex: 1;
+  }
+  .top-country-control > span {
+    display: none;
+  }
+}

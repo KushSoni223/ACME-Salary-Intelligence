@@ -94,13 +94,15 @@ function formatMoney(amount: string | number, currency: string) {
 
 function currencySymbol(currency: string) {
   try {
-    return new Intl.NumberFormat("en", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    })
-      .formatToParts(0)
-      .find((part) => part.type === "currency")?.value ?? currency;
+    return (
+      new Intl.NumberFormat("en", {
+        style: "currency",
+        currency,
+        maximumFractionDigits: 0,
+      })
+        .formatToParts(0)
+        .find((part) => part.type === "currency")?.value ?? currency
+    );
   } catch {
     return currency;
   }
@@ -419,6 +421,20 @@ function App() {
               </p>
             </div>
             <div className="heading-actions">
+              <label className="top-country-control">
+                <Globe2 size={15} aria-hidden="true" />
+                <span>Country</span>
+                <select
+                  aria-label="Dashboard country"
+                  value={filters.country}
+                  onChange={(event) => updateFilter("country", event.target.value)}
+                >
+                  <option value="">All countries</option>
+                  {options.countries.map((country) => (
+                    <option key={country}>{country}</option>
+                  ))}
+                </select>
+              </label>
               <button
                 className="button secondary export-button"
                 onClick={exportCurrentPage}
