@@ -26,4 +26,4 @@ The code's default database is a local SQLite file. For an externally hosted dem
 
 ## Demo video
 
-No recording has been created. Use [the walkthrough](demo-script.md) with synthetic data and capture the browser plus brief narration after a deployment or local run is available.
+https://drive.google.com/file/d/16crxP9rhtl5QcVRdMQ1wpHbenfBVC_2v/view?usp=sharing
