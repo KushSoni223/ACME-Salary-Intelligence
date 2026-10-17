@@ -67,12 +67,8 @@ The API supports `DATABASE_URL` for choosing another SQLAlchemy database URL. Fo
 
 ## Artifacts
 
-- [Product requirements](docs/requirements.md)
-- [Architecture and trade-offs](docs/architecture.md)
-- [Demo walkthrough](docs/demo-script.md)
-- [AI-assisted development notes](docs/ai-notes.md)
-- [Deployment and production checklist](docs/deployment.md)
+All assessment artifacts are collected in the [artifacts folder](artifacts/README.md): product requirements, architecture and trade-offs, AI-assisted development notes, demo walkthrough, and deployment checklist.
 
 ## Readiness note
 
-This repository is a locally runnable assessment prototype; it has not been deployed to a public hosting provider and no demo video has been recorded. The deployment notes describe what is required to publish it. It has no authentication or authorization, so do not expose it to the public internet or load real employee salary data until access control, audit, and operational requirements are implemented.
+This repository is a locally runnable assessment prototype; it has not been deployed to a public hosting provider and no demo video has been recorded. See the deployment checklist in the [artifacts folder](artifacts/deployment.md) for what is required to publish it. It has no authentication or authorization, so do not expose it to the public internet or load real employee salary data until access control, audit, and operational requirements are implemented.
