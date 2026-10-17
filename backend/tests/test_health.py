@@ -81,6 +81,13 @@ def test_health_check_returns_ok(client: TestClient) -> None:
     assert response.json() == {"status": "ok"}
 
 
+def test_filter_options_include_country_currency_mapping(client: TestClient) -> None:
+    response = client.get("/api/v1/meta")
+
+    assert response.status_code == 200
+    assert response.json()["country_currencies"] == {"Canada": "CAD", "United States": "USD"}
+
+
 def test_employee_directory_filters_search_and_paginates(client: TestClient) -> None:
     response = client.get(
         "/api/v1/employees",

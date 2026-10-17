@@ -65,6 +65,7 @@ type FilterOptions = {
   departments: string[];
   statuses: string[];
   currencies: string[];
+  country_currencies: Record<string, string>;
 };
 type SortField =
   | "employee_id"
@@ -79,6 +80,7 @@ const emptyOptions: FilterOptions = {
   departments: [],
   statuses: [],
   currencies: [],
+  country_currencies: {},
 };
 const pageSize = 12;
 
@@ -88,6 +90,20 @@ function formatMoney(amount: string | number, currency: string) {
     currency,
     maximumFractionDigits: 0,
   }).format(Number(amount));
+}
+
+function currencySymbol(currency: string) {
+  try {
+    return new Intl.NumberFormat("en", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    })
+      .formatToParts(0)
+      .find((part) => part.type === "currency")?.value ?? currency;
+  } catch {
+    return currency;
+  }
 }
 
 function initials(employee: Employee) {
@@ -117,6 +133,8 @@ function App() {
   const [notice, setNotice] = useState("");
   const [editing, setEditing] = useState<Employee | null>(null);
   const [creating, setCreating] = useState(false);
+  const [formCountry, setFormCountry] = useState("");
+  const [formCurrency, setFormCurrency] = useState("");
   const [saving, setSaving] = useState(false);
   const [insight, setInsight] = useState<"department" | "country">(
     "department",
@@ -412,6 +430,13 @@ function App() {
                 className="button primary add-button"
                 onClick={() => {
                   setEditing(null);
+                  const country = options.countries[0] ?? "";
+                  setFormCountry(country);
+                  setFormCurrency(
+                    options.country_currencies[country] ??
+                      options.currencies[0] ??
+                      "USD",
+                  );
                   setCreating(true);
                 }}
               >
@@ -729,7 +754,9 @@ function App() {
               <select
                 aria-label="Sort employees"
                 value={sortBy}
-                onChange={(event) => updateSort(event.target.value as SortField)}
+                onChange={(event) =>
+                  updateSort(event.target.value as SortField)
+                }
               >
                 <option value="employee_id">Sort: employee ID</option>
                 <option value="name">Sort: name</option>
@@ -742,9 +769,17 @@ function App() {
                 className="icon-button sort-direction"
                 title={`Sort ${sortOrder === "asc" ? "descending" : "ascending"}`}
                 aria-label={`Sort ${sortOrder === "asc" ? "descending" : "ascending"}`}
-                onClick={() => setSortOrder((current) => current === "asc" ? "desc" : "asc")}
+                onClick={() =>
+                  setSortOrder((current) =>
+                    current === "asc" ? "desc" : "asc",
+                  )
+                }
               >
-                {sortOrder === "asc" ? <ArrowUp size={15} /> : <ArrowDown size={15} />}
+                {sortOrder === "asc" ? (
+                  <ArrowUp size={15} />
+                ) : (
+                  <ArrowDown size={15} />
+                )}
               </button>
             </div>
             <div className="table-scroll">
@@ -932,6 +967,8 @@ function App() {
                           aria-label={`Edit compensation for ${employee.first_name} ${employee.last_name}`}
                           onClick={() => {
                             setCreating(false);
+                            setFormCountry(employee.country);
+                            setFormCurrency(employee.currency);
                             setEditing(employee);
                           }}
                         >
@@ -1095,7 +1132,13 @@ function App() {
                       Country
                       <select
                         name="country"
-                        defaultValue={options.countries[0]}
+                        value={formCountry || options.countries[0] || ""}
+                        onChange={(event) => {
+                          const country = event.target.value;
+                          setFormCountry(country);
+                          const currency = options.country_currencies[country];
+                          if (currency) setFormCurrency(currency);
+                        }}
                         required
                       >
                         {options.countries.map((country) => (
@@ -1118,7 +1161,9 @@ function App() {
                 Annual salary
                 <div className="salary-input-wrap">
                   <span>
-                    {editing?.currency ?? options.currencies[0] ?? "USD"}
+                    {currencySymbol(
+                      formCurrency || options.currencies[0] || "USD",
+                    )}
                   </span>
                   <input
                     name="annual_salary"
@@ -1135,7 +1180,8 @@ function App() {
                 Currency
                 <select
                   name="currency"
-                  defaultValue={editing?.currency ?? options.currencies[0]}
+                  value={formCurrency || options.currencies[0] || "USD"}
+                  onChange={(event) => setFormCurrency(event.target.value)}
                   required
                 >
                   {options.currencies.map((currency) => (

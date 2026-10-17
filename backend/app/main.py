@@ -201,12 +201,20 @@ def health_check() -> dict[str, str]:
 
 
 @app.get("/api/v1/meta")
-def get_filter_options(db: DbSession) -> dict[str, list[str]]:
+def get_filter_options(db: DbSession) -> dict[str, list[str] | dict[str, str]]:
+    country_currencies = db.execute(
+        select(Employee.country, Employee.currency)
+        .distinct()
+        .order_by(Employee.country, Employee.currency)
+    ).all()
     return {
         "countries": list(db.scalars(select(Employee.country).distinct().order_by(Employee.country))),
         "departments": list(db.scalars(select(Employee.department).distinct().order_by(Employee.department))),
         "statuses": list(db.scalars(select(Employee.status).distinct().order_by(Employee.status))),
         "currencies": list(db.scalars(select(Employee.currency).distinct().order_by(Employee.currency))),
+        "country_currencies": {
+            country: currency for country, currency in country_currencies
+        },
     }
 
 
